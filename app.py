@@ -4,7 +4,7 @@ import openai
 
 openai.api_key = st.secrets["api_key"]
 st.set_page_config(layout="wide",page_title="Peoply's Feedback AI", page_icon="🤖", initial_sidebar_state="auto")
-# openai.api_key = "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"
+
 
 # GPT 모델 셋팅값
 name_list = [
