@@ -14,4 +14,4 @@
 *.toml
 *.py
 # 예외
-!app.py
+!app.py app_insight.py
