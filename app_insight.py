@@ -12,11 +12,11 @@ st.set_page_config(layout="wide",page_title="Peoply insight AI", page_icon="🤖
 
 # employee_name_list 셋팅값
 employee_name_set = {
-    '손흥민 TEST110' : 'TEST110',
-    '이강인 TEST111' : 'TEST111',
-    '김민재 TEST112' : 'TEST112',
-    '황희찬 TEST113' : 'TEST113',
-    '정우영 TEST114' : 'TEST114'
+    '손흥민' : 'TEST110',
+    '이강인' : 'TEST111',
+    '김민재' : 'TEST112',
+    '황희찬' : 'TEST113',
+    '정우영' : 'TEST114'
 }
 employee_name_list = list(employee_name_set.keys())
 
