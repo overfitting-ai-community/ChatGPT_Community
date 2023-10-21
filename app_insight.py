@@ -12,11 +12,11 @@ st.set_page_config(layout="wide",page_title="Peoply insight AI", page_icon="🤖
 
 # employee_name_list 셋팅값
 employee_name_set = {
-    '손흥민' : 'TEST110',
-    '이강인' : 'TEST111',
-    '김민재' : 'TEST112',
-    '황희찬' : 'TEST113',
-    '정우영' : 'TEST114'
+    '손흥민 TEST110' : 'TEST110',
+    '이강인 TEST111' : 'TEST111',
+    '김민재 TEST112' : 'TEST112',
+    '황희찬 TEST113' : 'TEST113',
+    '정우영 TEST114' : 'TEST114'
 }
 employee_name_list = list(employee_name_set.keys())
 
@@ -44,10 +44,6 @@ length_set = {
     '200' : 200
 }
 length_list = list(length_set.keys())
-
-# 글자수 셋팅값
-min_length_of_result = 200
-init_length_of_result = 500
 
 # GPT 모델 셋팅값
 model_list = [
@@ -181,12 +177,12 @@ def draw_result(input_employee_text, input_employee_id, data_prompt, tbl_validat
     with col2:
         st.markdown(f"직원 id : **{input_employee_id}**")
         st.write('- GPT 모델 : ', input_model)
-        st.write('- 피드백 생성 수 : ', input_numbs)
+        st.write('- Insight 생성 수 : ', input_numbs)
     # st.write('피드백 등급 값 :', input_grade)
     st.write('---------------')
     st.write('- source table : ', tbl_validation)
     st.write('---------------')
-    st.write('- csv data : ', data_prompt)
+    st.write('- user prompt : ', data_prompt)
     st.write('---------------')
     st.write('- Insight report : ')
     # st.write(p_output)
