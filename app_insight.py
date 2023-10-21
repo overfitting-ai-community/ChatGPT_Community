@@ -4,44 +4,44 @@ import time
 import openai
 import pandas as pd
 import json
+
 # from io import StringIO
 
 openai.api_key = st.secrets["api_key_insight"]
-st.set_page_config(layout="wide",page_title="Peoply insight AI", page_icon="🤖", initial_sidebar_state="auto")
-
+st.set_page_config(layout="wide", page_title="Peoply insight AI", page_icon="🤖", initial_sidebar_state="auto")
 
 # employee_name_list 셋팅값
 employee_name_set = {
-    '손흥민' : 'TEST110',
-    '이강인' : 'TEST111',
-    '김민재' : 'TEST112',
-    '황희찬' : 'TEST113',
-    '정우영' : 'TEST114'
+    '손흥민': 'TEST110',
+    '이강인': 'TEST111',
+    '김민재': 'TEST112',
+    '황희찬': 'TEST113',
+    '정우영': 'TEST114'
 }
 employee_name_list = list(employee_name_set.keys())
 
 # Temperature 셋팅값
 temperature_set = {
-    '낮음' : 0.00,
-    '보통' : 0.50,
-    '높음' : 1.00
+    '낮음': 0.00,
+    '보통': 0.50,
+    '높음': 1.00
 }
 temperature_list = list(temperature_set.keys())
 
 # feedback 생성 수 셋팅값
 numbs_set = {
-    '1' : 1,
-    '2' : 2,
-    '3' : 3
+    '1': 1,
+    '2': 2,
+    '3': 3
 }
 numbs_list = list(numbs_set.keys())
 
 # insight 글자수  셋팅값
 length_set = {
-    '50' : 50,
-    '100' : 100,
-    '150' : 150,
-    '200' : 200
+    '50': 50,
+    '100': 100,
+    '150': 150,
+    '200': 200
 }
 length_list = list(length_set.keys())
 
@@ -55,6 +55,7 @@ model_list = [
 if 'gen' not in st.session_state:
     st.session_state.gen = []
 
+
 class Gen_set():
     name = None
     employee_id = None
@@ -66,7 +67,8 @@ class Gen_set():
     output = None
     numbs = None
 
-    def set_result(self, input_name, employee_id, input_dataset, tbl_validation, input_temperature, input_length, input_model, p_output, input_numbs):
+    def set_result(self, input_name, employee_id, input_dataset, tbl_validation, input_temperature, input_length,
+                   input_model, p_output, input_numbs):
         self.name = input_name
         self.employee_id = employee_id
         self.input_dataset = input_dataset
@@ -76,6 +78,7 @@ class Gen_set():
         self.model = input_model
         self.output = p_output
         self.numbs = input_numbs
+
 
 def add_set():
     input_dataset = json.load(st.session_state.input_dataset)
@@ -110,15 +113,19 @@ def add_set():
         table_output = pd.DataFrame(data_set)
         df = pd.DataFrame(data_set)
 
+        eval_set = {
+            "S": "기대 수준을 매우 초과",
+            "A": "기대 수준을 초과",
+            "B": "보통 수준",
+            "C": "미달",
+            "D": "매우 미달",
+            "EX": "우수함",
+            "NI": "개선이 필요함",
+            "GD": "보통"
+        }
+        for key in list(eval_set.keys()):
+            df.replace(key, eval_set[key], inplace=True)
         df.replace(user_id, employee_name, inplace=True)
-        df.replace("S", "기대 수준을 매우 초과", inplace=True)
-        df.replace("A", "기대 수준을 초과", inplace=True)
-        df.replace("B", "보통 수준", inplace=True)
-        df.replace("C", "미달", inplace=True)
-        df.replace("D", "매우 미달", inplace=True)
-        df.replace("EX", '우수함', inplace=True)
-        df.replace("NI", "개선이 필요함", inplace=True)
-        df.replace("GD", "보통", inplace=True)
 
         csv_output = df.to_csv()
         return csv_output, table_output
@@ -161,14 +168,16 @@ def add_set():
     outputs = content
 
     g = Gen_set()
-    g.set_result(input_employee_text, input_employee_id, data_prompt, tbl_validation, input_temperature, input_length, input_model, outputs, input_numbs)
+    g.set_result(input_employee_text, input_employee_id, data_prompt, tbl_validation, input_temperature, input_length,
+                 input_model, outputs, input_numbs)
 
     gen = st.session_state.gen
     gen.append(g)
     st.session_state.gen = gen
 
-def draw_result(input_employee_text, input_employee_id, data_prompt, tbl_validation, input_temperature, input_length, input_model, outputs, input_numbs):
 
+def draw_result(input_employee_text, input_employee_id, data_prompt, tbl_validation, input_temperature, input_length,
+                input_model, outputs, input_numbs):
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(f"이름 : **{input_employee_text}**")
@@ -192,6 +201,7 @@ def draw_result(input_employee_text, input_employee_id, data_prompt, tbl_validat
         st.write(output)
         st.write('---------------')
     st.write('---------------')
+
 
 # st.text("피평가자에 대한 MBO 내용을 입력하면, ChatGPT가 MBO 피드백을 생성합니다.")
 
@@ -248,14 +258,17 @@ with st.sidebar:
         st.form_submit_button("Generate", on_click=add_set)
         # st.form_submit_button("Generate", on_click=add_set(uploaded_dataset))
 
-st.image('https://raw.githubusercontent.com/overfitting-ai-community/ChatGPT_Gen_Comment/f6e0722f128f8bb5ee85f29dd52fcb8a6d8784eb/peoply.png', width=130)
+st.image(
+    'https://raw.githubusercontent.com/overfitting-ai-community/ChatGPT_Gen_Comment/f6e0722f128f8bb5ee85f29dd52fcb8a6d8784eb/peoply.png',
+    width=130)
 st.info('**🤖 Insight AI가 생성하는 인사평가 분석을 아래에서 확인 할 수 있습니다.**')
 
 # Result
-if(len(st.session_state.gen) > 0):
+if (len(st.session_state.gen) > 0):
     # for i in range(len(st.session_state.gen)):
     #     set = st.session_state.gen[i]
     #     draw_result(set.name, set.fact_gathering, set.grade, set.temperature, set.length, set.model, set.output, set.numbs)
     for idx, set in reversed(list(enumerate(st.session_state.gen))):
-        draw_result(set.name, set.employee_id, set.input_dataset, set.tbl_validation, set.temperature, set.length, set.model, set.output,
+        draw_result(set.name, set.employee_id, set.input_dataset, set.tbl_validation, set.temperature, set.length,
+                    set.model, set.output,
                     set.numbs)
