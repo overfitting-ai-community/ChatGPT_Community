@@ -103,16 +103,24 @@ def add_set():
         for a in dataset[user_id]["data"]["evaluation"]["table"]["data"]:
             # print(a['year'], a['competency'], a['objective'],a['overall'])
             lst_user_id.append(user_id)
+            # lst_year.append(int(a['year']))
             lst_year.append(a['year'])
             lst_competency.append(a['competency'])
             lst_objective.append(a['objective'])
             lst_overall.append(a['overall'])
 
+        orgin_set = {'user_ID': lst_user_id, 'year': lst_year, 'competency': lst_competency, 'objective': lst_objective,
+                'overall': lst_overall}
         data_set = {'직원 이름': lst_user_id, '년도': lst_year, '개인 역량 수준': lst_competency, '사업 성과 수준': lst_objective,
                     '종합평가 수준': lst_overall}
 
-        table_output = pd.DataFrame(data_set)
+        table_output = pd.DataFrame(orgin_set)
         df = pd.DataFrame(data_set)
+
+        df = df.sort_values(by=['년도'], ascending=False)
+        df.reset_index(drop=True, inplace=True)
+        table_output = table_output.sort_values(by='year', ascending=False)
+        table_output.reset_index(drop=True, inplace=True)
 
         eval_set = {
             "S": "기대 수준을 매우 초과",
