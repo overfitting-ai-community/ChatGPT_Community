@@ -39,9 +39,10 @@ numbs_list = list(numbs_set.keys())
 # insight 글자수  셋팅값
 length_set = {
     '50': 50,
-    '100': 100,
-    '150': 150,
-    '200': 200
+    '10': 10,
+    '20': 20,
+    '30': 30,
+    '40': 40
 }
 length_list = list(length_set.keys())
 
@@ -187,12 +188,12 @@ def draw_result(input_employee_text, input_employee_id, data_prompt, tbl_validat
         st.markdown(f"직원 id : **{input_employee_id}**")
         st.write('- GPT 모델 : ', input_model)
         st.write('- Insight 생성 수 : ', input_numbs)
-    # st.write('피드백 등급 값 :', input_grade)
-    st.write('---------------')
-    st.write('- source table : ', tbl_validation)
-    st.write('---------------')
-    st.write('- user prompt : ', data_prompt)
-    st.write('---------------')
+    if st.session_state.debug:
+        st.write('---------------')
+        st.write('- source table : ', tbl_validation)
+        st.write('---------------')
+        # st.write('- user prompt : ', data_prompt)
+        # st.write('---------------')
     st.write('- Insight report : ')
     # st.write(p_output)
     for output in outputs:
@@ -255,6 +256,11 @@ with st.sidebar:
             index=0,
             key='input_length_text'
         )
+
+        checked = st.checkbox(
+            'debug mode', key='debug'
+        )
+
         st.form_submit_button("Generate", on_click=add_set)
         # st.form_submit_button("Generate", on_click=add_set(uploaded_dataset))
 
