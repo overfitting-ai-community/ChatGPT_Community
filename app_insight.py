@@ -179,28 +179,41 @@ def add_set():
 
 def draw_result(input_employee_text, input_employee_id, data_prompt, tbl_validation, input_temperature, input_length,
                 input_model, outputs, input_numbs):
+
     col1, col2 = st.columns(2)
-    with col1:
-        st.markdown(f"이름 : **{input_employee_text}**")
-        st.write('- 피드백 다양성 값 : ', input_temperature)
-        st.write('- 글자수 제한 : ', input_length)
-    with col2:
-        st.markdown(f"직원 id : **{input_employee_id}**")
-        st.write('- GPT 모델 : ', input_model)
-        st.write('- Insight 생성 수 : ', input_numbs)
     if st.session_state.debug:
-        st.write('---------------')
-        st.write('- source table : ', tbl_validation)
-        st.write('---------------')
-        # st.write('- user prompt : ', data_prompt)
-        # st.write('---------------')
-    st.write('- Insight report : ')
-    # st.write(p_output)
-    for output in outputs:
-        # output = f"*** {o} ***"
-        # st.markdown(output)
-        st.write(output)
-        st.write('---------------')
+        with col1:
+            st.markdown(f"이름 : **{input_employee_text}**")
+            st.write('- 피드백 다양성 값 : ', input_temperature)
+            st.write('- 글자수 제한 : ', input_length)
+            st.write('---------------')
+            st.write('- source table : ', tbl_validation)
+        with col2:
+            st.markdown(f"직원 id : **{input_employee_id}**")
+            st.write('- GPT 모델 : ', input_model)
+            st.write('- Insight 생성 수 : ', input_numbs)
+            st.write('---------------')
+            st.write('- user prompt : ', data_prompt)
+            st.write('---------------')
+            st.write('- Insight report : ')
+            # st.write(p_output)
+            for output in outputs:
+                # output = f"*** {o} ***"
+                # st.markdown(output)
+                st.write(output)
+                st.write('---------------')
+    else:
+        with col1:
+            st.markdown(f"이름 : **{input_employee_text}**")
+            st.write('---------------')
+            st.write('- source table : ', tbl_validation)
+        with col2:
+            st.markdown(f"직원 id : **{input_employee_id}**")
+            st.write('---------------')
+            st.write('- Insight report : ')
+            for output in outputs:
+                st.write(output)
+    st.write('---------------')
     st.write('---------------')
 
 
@@ -257,7 +270,7 @@ with st.sidebar:
             key='input_length_text'
         )
 
-        checked = st.checkbox(
+        st.checkbox(
             'debug mode', key='debug'
         )
 
